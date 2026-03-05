@@ -15,6 +15,12 @@ export const metadata: Metadata = {
     title: 'DoWeMatch — Find Out If You Actually Click',
     description: 'Two people. Ten questions each. One honest AI report.',
     type: 'website',
+    siteName: 'DoWeMatch',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'DoWeMatch — Find Out If You Actually Click',
+    description: 'Two people. Ten questions each. One honest AI report.',
   },
 }
 
