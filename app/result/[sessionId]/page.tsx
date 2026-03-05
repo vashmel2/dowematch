@@ -177,8 +177,8 @@ export default function ResultPage({ params }: { params: Promise<{ sessionId: st
 
         {/* Shareable result URL */}
         <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-5 space-y-3">
-          <h2 className="text-xs text-zinc-500 font-medium uppercase tracking-widest">Share your result</h2>
-          <p className="text-xs text-zinc-500">Anyone with this link can view your full result page.</p>
+          <h2 className="text-xs text-zinc-500 font-medium uppercase tracking-widest">Show the world</h2>
+          <p className="text-xs text-zinc-500">Post it. Send it to your group chat. Make them curious.</p>
           <div className="flex gap-2">
             <p className="flex-1 text-xs text-zinc-400 font-mono bg-zinc-800/50 rounded-lg px-3 py-2 truncate">
               {resultUrl || `dowematch.com/result/${sessionId}`}
@@ -194,7 +194,7 @@ export default function ResultPage({ params }: { params: Promise<{ sessionId: st
 
         {/* Share card + download */}
         <div>
-          <h2 className="text-xs text-zinc-500 font-medium uppercase tracking-widest mb-4">Download your card</h2>
+          <h2 className="text-xs text-zinc-500 font-medium uppercase tracking-widest mb-4">Your shareable card</h2>
           <ShareCard result={result} mode={mode} />
         </div>
 
