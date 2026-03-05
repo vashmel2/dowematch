@@ -18,13 +18,21 @@ export async function generateCompatibilityResult(
     situationship: 'situationship / undefined relationship',
   }
 
+  const pairLabels: Record<Mode, [string, string]> = {
+    dating: ['Partner A', 'Partner B'],
+    married: ['Partner A', 'Partner B'],
+    friends: ['Friend A', 'Friend B'],
+    situationship: ['Person A', 'Person B'],
+  }
+  const [label1, label2] = pairLabels[mode]
+
   const prompt = `You are analyzing a ${modeDescriptions[mode]} compatibility reveal.
 Two people answered the same 10 questions separately and honestly.
 
-Person 1's answers:
+${label1}'s answers:
 ${formatAnswers(person1Answers)}
 
-Person 2's answers:
+${label2}'s answers:
 ${formatAnswers(person2Answers)}
 
 Write a compatibility report with these sections:

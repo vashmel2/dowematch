@@ -73,7 +73,13 @@ export default function ShareCard({ result, mode }: Props) {
         </div>
 
         <p style={{ fontSize: '12px', color: '#a1a1aa', margin: '4px 0 0', lineHeight: 1.6, maxWidth: '340px', textAlign: 'center' }}>
-          {result.report.slice(0, 200).trim()}{result.report.length > 200 ? '…' : ''}
+          {(() => {
+            const text = result.report
+            if (text.length <= 250) return text
+            const slice = text.slice(0, 250)
+            const lastBoundary = Math.max(slice.lastIndexOf('.'), slice.lastIndexOf('!'), slice.lastIndexOf('?'))
+            return lastBoundary > 80 ? text.slice(0, lastBoundary + 1) : slice.trim() + '…'
+          })()}
         </p>
 
         <p style={{ fontSize: '11px', color: '#52525b', margin: 0 }}>

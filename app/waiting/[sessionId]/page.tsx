@@ -9,16 +9,30 @@ export default function WaitingPage({ params }: { params: Promise<{ sessionId: s
   const { sessionId } = use(params)
   const router = useRouter()
   const [copied, setCopied] = useState(false)
+  const [canShare, setCanShare] = useState(false)
   const [siteUrl, setSiteUrl] = useState('')
 
   useEffect(() => {
     setSiteUrl(window.location.origin)
+    setCanShare(typeof navigator.share === 'function')
   }, [])
 
   const inviteUrl = siteUrl ? `${siteUrl}/invite/${sessionId}` : ''
 
-  async function copyLink() {
+  async function shareLink() {
     if (!inviteUrl) return
+    if (canShare) {
+      try {
+        await navigator.share({
+          title: 'DoWeMatch — are we actually compatible?',
+          text: 'I answered 10 questions about us. Answer yours and we both see the result at the same time.',
+          url: inviteUrl,
+        })
+        return
+      } catch {
+        // user cancelled or share failed, fall through to copy
+      }
+    }
     await navigator.clipboard.writeText(inviteUrl)
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
@@ -88,17 +102,27 @@ export default function WaitingPage({ params }: { params: Promise<{ sessionId: s
             </div>
 
             <button
-              onClick={copyLink}
+              onClick={shareLink}
               disabled={!inviteUrl}
-              className="w-full py-3 rounded-xl bg-linear-to-r from-rose-500 to-violet-600 text-white text-sm font-semibold hover:opacity-90 transition disabled:opacity-50"
+              className="w-full py-3 rounded-xl bg-linear-to-r from-rose-500 to-violet-600 text-white text-sm font-semibold hover:opacity-90 transition disabled:opacity-50 flex items-center justify-center gap-2"
             >
-              {copied ? 'Copied!' : 'Copy link'}
+              {copied ? (
+                'Copied!'
+              ) : canShare ? (
+                <>
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13"/>
+                  </svg>
+                  Send to your partner
+                </>
+              ) : (
+                'Copy link'
+              )}
             </button>
 
-            <div className="flex gap-2 text-xs text-zinc-600 justify-center">
-              <span>Send via</span>
-              <span>WhatsApp, iMessage, Instagram, whatever.</span>
-            </div>
+            <p className="text-xs text-zinc-600 text-center">
+              {canShare ? 'Opens your share sheet — WhatsApp, Messenger, iMessage, whatever.' : 'Paste this in WhatsApp, Messenger, iMessage, wherever.'}
+            </p>
           </div>
 
           {/* What happens next */}

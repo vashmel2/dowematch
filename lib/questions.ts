@@ -8,11 +8,11 @@ export interface Question {
 
 export const questions: Record<Mode, Question[]> = {
   dating: [
-    { id: 1, text: 'After a big fight, I need to...', options: ['Space alone', 'Talk it out immediately', 'Distract myself', 'It depends'] },
-    { id: 2, text: 'My ideal Sunday is...', options: ['Staying home', 'Going out', 'Mix of both', 'Spontaneous'] },
+    { id: 1, text: 'After a big fight, I need to...', options: ['Have some space', 'Talk it out immediately', 'Distract myself', 'It depends'] },
+    { id: 2, text: 'My ideal Sunday is...', options: ['Staying home', 'Going out', 'Mix of both', 'Whatever comes up'] },
     { id: 3, text: "When I'm stressed I...", options: ['Go quiet', 'Talk about it', 'Get busy', 'Shut everyone out'] },
     { id: 4, text: 'Money should be...', options: ['Saved aggressively', 'Spent on experiences', 'Balanced', "Honestly not my focus right now"] },
-    { id: 5, text: 'I show love by...', options: ['Words', 'Quality time', 'Touch', 'Acts of service', 'Gifts'] },
+    { id: 5, text: 'I show love by...', options: ['Saying it out loud', 'Quality time', 'Touch', 'Acts of service', 'Gifts'] },
     { id: 6, text: 'My communication style is...', options: ['Blunt and direct', 'Gentle and careful', 'Depends on mood', 'Mostly quiet'] },
     { id: 7, text: 'In a relationship, I need...', options: ['Lots of alone time', 'Constant togetherness', 'Balanced space', 'Still figuring it out'] },
     { id: 8, text: 'My biggest relationship fear is...', options: ['Abandonment', 'Loss of freedom', 'Growing apart', 'Dishonesty'] },
@@ -20,8 +20,8 @@ export const questions: Record<Mode, Question[]> = {
     { id: 10, text: 'Where I see us in 2 years...', options: ['Moved in together', 'Engaged or married', 'Still dating', 'Honestly not sure yet'] },
   ],
   married: [
-    { id: 1, text: 'After a big fight, I need to...', options: ['Space alone', 'Talk it out right away', 'Distract myself', 'It depends'] },
-    { id: 2, text: 'I show love by...', options: ['Words', 'Quality time', 'Touch', 'Acts of service'] },
+    { id: 1, text: 'After a big fight, I need to...', options: ['Have some space', 'Talk it out right away', 'Distract myself', 'It depends'] },
+    { id: 2, text: 'I show love by...', options: ['Saying it out loud', 'Quality time', 'Touch', 'Acts of service'] },
     { id: 3, text: 'My biggest fear for us right now is...', options: ['Growing apart', 'Losing ourselves in routine', 'Financial pressure', 'Honestly, we\'re fine'] },
     { id: 4, text: 'The home workload — my honest take is...', options: ['I carry more than my share', 'They carry more', 'It feels fair', 'We\'ve never really talked about it'] },
     { id: 5, text: 'With money, I tend to...', options: ['Save aggressively', 'Spend on what makes us happy', 'Try to balance', 'Avoid thinking about it'] },
@@ -48,7 +48,7 @@ export const questions: Record<Mode, Question[]> = {
     { id: 2, text: 'I think about you...', options: ['A lot', 'Sometimes', 'Only when we talk', 'More than I admit'] },
     { id: 3, text: "The reason we haven't defined this is...", options: ['Not ready', 'Scared of the answer', 'Enjoying the flow', 'One of us is holding back'] },
     { id: 4, text: 'If you started dating someone else I\'d feel...', options: ['Hurt', 'Relieved', 'Confused', 'Nothing'] },
-    { id: 5, text: 'What I actually want is...', options: ['Something real', 'Keep it casual', "I don't know", 'Whatever you want'] },
+    { id: 5, text: 'What I actually want is...', options: ['Something real', 'Keeping it casual', "I don't know", 'Whatever you want'] },
     { id: 6, text: 'I think you like me...', options: ['More than you show', 'Less than I want', 'About the same as I like you', "It's complicated"] },
     { id: 7, text: 'Our situation is...', options: ['Heading somewhere', 'Stuck', 'Fading', 'Neither of us knows'] },
     { id: 8, text: 'The talking stage for us has been...', options: ['Too long', 'Just right', 'Barely started', 'On and off'] },
