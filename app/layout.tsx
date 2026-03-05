@@ -8,19 +8,21 @@ const geist = Geist({
 })
 
 export const metadata: Metadata = {
-  title: 'DoWeMatch — Find Out If You Actually Click',
+  title: 'DoWeMatch — Find Out How Compatible You Two Really Are',
   description:
-    'Two people. Ten questions each. One honest AI report. Find out if you really match — as a couple, friends, or something in between.',
+    'Two people answer 10 questions separately and honestly. The AI reads both sides and writes a real compatibility report — for couples, friends, and situationships. Free, no sign-up.',
   openGraph: {
-    title: 'DoWeMatch — Find Out If You Actually Click',
-    description: 'Two people. Ten questions each. One honest AI report.',
+    title: 'DoWeMatch — Find Out How Compatible You Two Really Are',
+    description:
+      'Two people answer 10 questions separately. The AI reads both sides and delivers an honest compatibility report. Couples, friends, situationships. Free.',
     type: 'website',
     siteName: 'DoWeMatch',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'DoWeMatch — Find Out If You Actually Click',
-    description: 'Two people. Ten questions each. One honest AI report.',
+    title: 'DoWeMatch — Find Out How Compatible You Two Really Are',
+    description:
+      'Two people answer 10 questions separately. The AI reads both sides and delivers an honest compatibility report. Couples, friends, situationships. Free.',
   },
 }
 
