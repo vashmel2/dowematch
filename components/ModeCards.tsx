@@ -56,7 +56,7 @@ export default function ModeCards() {
         <Link
           key={mode.key}
           href={`/start?mode=${mode.key}`}
-          className={`relative group flex flex-col rounded-3xl border bg-linear-to-b ${mode.glow} bg-zinc-900 p-6 transition-all duration-300 ${mode.accent} ${mode.shadow} hover:-translate-y-1 hover:shadow-xl`}
+          className={`relative group flex flex-col items-center text-center sm:items-start sm:text-left rounded-3xl border bg-linear-to-b ${mode.glow} bg-zinc-900 p-6 transition-all duration-300 ${mode.accent} ${mode.shadow} hover:-translate-y-1 hover:shadow-xl`}
         >
           {mode.popular && (
             <div className="absolute -top-3 left-1/2 -translate-x-1/2 text-xs font-semibold px-3 py-1 rounded-full bg-violet-500 text-white shadow-lg shadow-violet-500/30 whitespace-nowrap">
@@ -64,8 +64,8 @@ export default function ModeCards() {
             </div>
           )}
 
-          <div className="w-full h-32 flex items-center justify-center mb-5">
-            <LottieAnimation src={mode.lottie} className="w-28 h-28" />
+          <div className="w-full h-24 sm:h-32 flex items-center justify-center mb-4 sm:mb-5">
+            <LottieAnimation src={mode.lottie} className="w-20 h-20 sm:w-28 sm:h-28" />
           </div>
 
           <div className="flex items-center gap-2 mb-2">

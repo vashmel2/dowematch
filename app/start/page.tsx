@@ -92,7 +92,7 @@ function StartPageInner() {
         {!mode ? (
           <div className="flex flex-col gap-8">
             <div>
-              <p className="text-xs text-zinc-600 uppercase tracking-widest font-medium mb-2">Step 1 of 2</p>
+              <p className="text-xs text-zinc-500 uppercase tracking-widest font-medium mb-2">Step 1 of 2</p>
               <h1 className="text-2xl font-bold mb-1">What are you two?</h1>
               <p className="text-zinc-500 text-sm">The AI adjusts tone and questions based on your situation.</p>
             </div>
@@ -116,7 +116,7 @@ function StartPageInner() {
               ))}
             </div>
 
-            <p className="text-center text-xs text-zinc-700">
+            <p className="text-center text-xs text-zinc-500">
               Your answers stay hidden until the other person submits theirs.
             </p>
           </div>

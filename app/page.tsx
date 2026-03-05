@@ -62,7 +62,7 @@ export default function HomePage() {
       </nav>
 
       {/* Hero */}
-      <section className="relative flex flex-col items-center justify-center px-6 pt-20 pb-16 text-center overflow-hidden">
+      <section className="relative flex flex-col items-center justify-center px-6 pt-20 pb-10 text-center overflow-hidden">
         <div className="absolute inset-0 pointer-events-none">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-150 h-100 rounded-full bg-rose-600/10 blur-[120px]" />
           <div className="absolute top-10 left-1/2 -translate-x-1/2 w-100 h-75 rounded-full bg-violet-600/8 blur-[100px]" />
@@ -98,12 +98,12 @@ export default function HomePage() {
             </Link>
           </div>
 
-          <p className="mt-4 text-xs text-zinc-700">No sign-up. No account. No judgment. Just answers.</p>
+          <p className="mt-4 text-xs text-zinc-500">No sign-up. No account. No judgment. Just answers.</p>
         </div>
       </section>
 
       {/* Mode cards — client component (Lottie needs browser) */}
-      <section className="px-6 py-16 max-w-4xl mx-auto w-full">
+      <section className="px-6 pt-8 pb-14 max-w-4xl mx-auto w-full">
         <div className="text-center mb-12">
           <h2 className="text-2xl font-bold mb-2">Pick your situation</h2>
           <p className="text-zinc-500 text-sm">Different modes, different questions, different AI tone.</p>
@@ -126,7 +126,7 @@ export default function HomePage() {
               </div>
               <div>
                 <div className="flex items-center gap-2 mb-1">
-                  <span className="text-xs text-zinc-600 font-mono">{item.n}</span>
+                  <span className="text-xs text-zinc-500 font-mono">{item.n}</span>
                   <span className="font-semibold text-sm text-zinc-100">{item.title}</span>
                 </div>
                 <p className="text-zinc-500 text-sm leading-relaxed">{item.desc}</p>
@@ -146,7 +146,7 @@ export default function HomePage() {
           ].map((item) => (
             <div key={item.label}>
               <p className="font-semibold text-sm text-zinc-200">{item.label}</p>
-              <p className="text-xs text-zinc-600 mt-0.5">{item.sub}</p>
+              <p className="text-xs text-zinc-500 mt-0.5">{item.sub}</p>
             </div>
           ))}
         </div>
@@ -170,7 +170,7 @@ export default function HomePage() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-zinc-800/50 px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-600">
+      <footer className="border-t border-zinc-800/50 px-6 py-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-500">
         <span className="font-medium text-zinc-500">DoWeMatch</span>
         <div className="flex gap-5">
           <Link href="/about" className="hover:text-zinc-400 transition">About</Link>

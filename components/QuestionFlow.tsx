@@ -53,9 +53,9 @@ export default function QuestionFlow({ questions, onComplete, submitting }: Prop
       <div className="space-y-2">
         <div className="flex justify-between items-center">
           <span className="text-xs font-semibold text-violet-400 uppercase tracking-widest">
-            Question {current + 1} <span className="text-zinc-600 font-normal">/ {questions.length}</span>
+            Question {current + 1} <span className="text-zinc-500 font-normal">/ {questions.length}</span>
           </span>
-          <span className="text-xs text-zinc-600">{Math.round((current / questions.length) * 100)}%</span>
+          <span className="text-xs text-zinc-500">{Math.round((current / questions.length) * 100)}%</span>
         </div>
         <div className="h-1.5 bg-zinc-800 rounded-full overflow-hidden">
           <div
@@ -67,7 +67,7 @@ export default function QuestionFlow({ questions, onComplete, submitting }: Prop
 
       {/* Question — clearly the prompt, not a card */}
       <div className="space-y-1">
-        <p className="text-xs text-zinc-600 font-medium">Answer honestly</p>
+        <p className="text-xs text-zinc-500 font-medium">Answer honestly</p>
         <h2 className="text-2xl sm:text-3xl font-bold leading-snug text-white">
           {question.text}
         </h2>
@@ -75,7 +75,7 @@ export default function QuestionFlow({ questions, onComplete, submitting }: Prop
 
       {/* Options — clearly the choices */}
       <div className="flex flex-col gap-3">
-        <p className="text-xs text-zinc-600 uppercase tracking-widest font-medium">Pick one</p>
+        <p className="text-xs text-zinc-500 uppercase tracking-widest font-medium">Pick one</p>
         {question.options.map((option, i) => {
           const isChosen = selected === option
           return (
@@ -132,7 +132,7 @@ export default function QuestionFlow({ questions, onComplete, submitting }: Prop
           className={`flex-1 py-3.5 rounded-xl text-sm font-semibold transition-all
             ${selected && !submitting
               ? 'bg-linear-to-r from-rose-500 to-violet-600 text-white hover:opacity-90 shadow-lg shadow-rose-500/20'
-              : 'bg-zinc-800/50 text-zinc-600 cursor-not-allowed border border-zinc-800'
+              : 'bg-zinc-800/50 text-zinc-500 cursor-not-allowed border border-zinc-800'
             }`}
         >
           {submitting ? 'Submitting...' : isLast ? 'See the result \u2192' : 'Next question \u2192'}

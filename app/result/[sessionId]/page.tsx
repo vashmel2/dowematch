@@ -143,7 +143,7 @@ export default function ResultPage({ params }: { params: Promise<{ sessionId: st
 
         {/* Score bar */}
         <div className="space-y-2">
-          <div className="flex justify-between text-xs text-zinc-600">
+          <div className="flex justify-between text-xs text-zinc-500">
             <span>0%</span>
             <span>100%</span>
           </div>
@@ -178,7 +178,7 @@ export default function ResultPage({ params }: { params: Promise<{ sessionId: st
         {/* Shareable result URL */}
         <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-5 space-y-3">
           <h2 className="text-xs text-zinc-500 font-medium uppercase tracking-widest">Share your result</h2>
-          <p className="text-xs text-zinc-600">Anyone with this link can view your full result page.</p>
+          <p className="text-xs text-zinc-500">Anyone with this link can view your full result page.</p>
           <div className="flex gap-2">
             <p className="flex-1 text-xs text-zinc-400 font-mono bg-zinc-800/50 rounded-lg px-3 py-2 truncate">
               {resultUrl || `dowematch.com/result/${sessionId}`}
@@ -200,7 +200,7 @@ export default function ResultPage({ params }: { params: Promise<{ sessionId: st
 
         {/* Retake CTA */}
         <div className="text-center py-4 border-t border-zinc-800/50">
-          <p className="text-zinc-600 text-sm mb-4">Want to try with someone else?</p>
+          <p className="text-zinc-500 text-sm mb-4">Want to try with someone else?</p>
           <Link
             href="/start"
             className="inline-flex items-center gap-2 text-sm text-zinc-400 border border-zinc-700 rounded-xl px-5 py-2.5 hover:border-zinc-500 hover:text-white transition"
@@ -223,7 +223,7 @@ export default function ResultPage({ params }: { params: Promise<{ sessionId: st
                 href={`/blog/${article.slug}`}
                 className="text-sm text-zinc-500 hover:text-zinc-300 transition flex items-center gap-2"
               >
-                <span className="text-zinc-700">&rsaquo;</span>
+                <span className="text-zinc-500">&rsaquo;</span>
                 {article.label}
               </Link>
             ))}
@@ -231,7 +231,7 @@ export default function ResultPage({ params }: { params: Promise<{ sessionId: st
         </div>
       </div>
 
-      <footer className="border-t border-zinc-800/50 px-6 py-6 text-center text-xs text-zinc-600">
+      <footer className="border-t border-zinc-800/50 px-6 py-6 text-center text-xs text-zinc-500">
         <Link href="/" className="hover:text-zinc-400 transition">DoWeMatch</Link> &mdash;{' '}
         <Link href="/privacy" className="hover:text-zinc-400 transition">Privacy</Link> &bull;{' '}
         <Link href="/terms" className="hover:text-zinc-400 transition">Terms</Link>
