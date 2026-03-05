@@ -13,6 +13,16 @@ export default function ResultPage({ params }: { params: Promise<{ sessionId: st
   const { sessionId } = use(params)
   const [session, setSession] = useState<Session | null>(null)
   const [status, setStatus] = useState<Status>('loading')
+  const [copied, setCopied] = useState(false)
+
+  const resultUrl = typeof window !== 'undefined' ? `${window.location.origin}/result/${sessionId}` : ''
+
+  async function copyResultUrl() {
+    const url = `${window.location.origin}/result/${sessionId}`
+    await navigator.clipboard.writeText(url)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
 
   const fetchSession = useCallback(async () => {
     const res = await fetch(`/api/session/${sessionId}`)
@@ -165,9 +175,26 @@ export default function ResultPage({ params }: { params: Promise<{ sessionId: st
           </div>
         </div>
 
+        {/* Shareable result URL */}
+        <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-5 space-y-3">
+          <h2 className="text-xs text-zinc-500 font-medium uppercase tracking-widest">Share your result</h2>
+          <p className="text-xs text-zinc-600">Anyone with this link can view your full result page.</p>
+          <div className="flex gap-2">
+            <p className="flex-1 text-xs text-zinc-400 font-mono bg-zinc-800/50 rounded-lg px-3 py-2 truncate">
+              {resultUrl || `dowematch.com/result/${sessionId}`}
+            </p>
+            <button
+              onClick={copyResultUrl}
+              className="shrink-0 px-4 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-xs text-zinc-300 font-medium hover:border-zinc-500 hover:text-white transition"
+            >
+              {copied ? 'Copied!' : 'Copy'}
+            </button>
+          </div>
+        </div>
+
         {/* Share card + download */}
         <div>
-          <h2 className="text-xs text-zinc-500 font-medium uppercase tracking-widest mb-4">Your shareable card</h2>
+          <h2 className="text-xs text-zinc-500 font-medium uppercase tracking-widest mb-4">Download your card</h2>
           <ShareCard result={result} mode={mode} />
         </div>
 

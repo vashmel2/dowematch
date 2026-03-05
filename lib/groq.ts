@@ -12,7 +12,8 @@ export async function generateCompatibilityResult(
     qs.map((q, i) => `${i + 1}. ${q.text} → ${answers[i]}`).join('\n')
 
   const modeDescriptions = {
-    couples: 'romantic relationship',
+    dating: 'dating relationship (boyfriend/girlfriend). They are still building the relationship and figuring out if they are headed the same direction. Focus on communication mismatches, compatibility of life goals, and early red flags or green flags.',
+    married: 'long-term relationship or marriage. They are already committed and living life together. Do NOT question whether they should be together — focus on day-to-day dynamics, how they function as a unit, where friction builds up quietly, and what they do well together that they may take for granted.',
     friends: 'friendship',
     situationship: 'situationship / undefined relationship',
   }

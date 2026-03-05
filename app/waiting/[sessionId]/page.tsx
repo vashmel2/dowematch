@@ -101,10 +101,22 @@ export default function WaitingPage({ params }: { params: Promise<{ sessionId: s
             </div>
           </div>
 
-          {/* Instructions */}
-          <div className="text-xs text-zinc-600 space-y-1">
-            <p>The other person answers 10 questions on their own.</p>
-            <p>Neither of you sees each other&rsquo;s answers until both are done.</p>
+          {/* What happens next */}
+          <div className="bg-zinc-900/50 border border-zinc-800/60 rounded-2xl p-5 text-left space-y-3">
+            <p className="text-xs text-zinc-500 uppercase tracking-widest font-semibold">What happens next</p>
+            <ol className="space-y-2.5">
+              {[
+                'Your partner opens the link and answers the same 10 questions on their own.',
+                'Neither of you sees the other\'s answers until both are done.',
+                'The moment they finish, both of you get redirected to the results at the same time.',
+                'The AI reads both sets of answers together and writes a report just for your pair.',
+              ].map((step, i) => (
+                <li key={i} className="flex gap-3 items-start">
+                  <span className="w-5 h-5 rounded-full bg-zinc-800 border border-zinc-700 text-zinc-500 text-[10px] font-mono flex items-center justify-center shrink-0 mt-0.5">{i + 1}</span>
+                  <span className="text-xs text-zinc-500 leading-relaxed">{step}</span>
+                </li>
+              ))}
+            </ol>
           </div>
         </div>
       </div>

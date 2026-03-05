@@ -1,4 +1,4 @@
-export type Mode = 'couples' | 'friends' | 'situationship'
+export type Mode = 'dating' | 'married' | 'friends' | 'situationship'
 
 export interface Question {
   id: number
@@ -7,17 +7,29 @@ export interface Question {
 }
 
 export const questions: Record<Mode, Question[]> = {
-  couples: [
+  dating: [
     { id: 1, text: 'After a big fight, I need to...', options: ['Space alone', 'Talk it out immediately', 'Distract myself', 'It depends'] },
     { id: 2, text: 'My ideal Sunday is...', options: ['Staying home', 'Going out', 'Mix of both', 'Spontaneous'] },
     { id: 3, text: "When I'm stressed I...", options: ['Go quiet', 'Talk about it', 'Get busy', 'Shut everyone out'] },
-    { id: 4, text: 'Money should be...', options: ['Saved aggressively', 'Spent on experiences', 'Balanced', "We don't need to discuss it"] },
+    { id: 4, text: 'Money should be...', options: ['Saved aggressively', 'Spent on experiences', 'Balanced', "Honestly not my focus right now"] },
     { id: 5, text: 'I show love by...', options: ['Words', 'Quality time', 'Touch', 'Acts of service', 'Gifts'] },
     { id: 6, text: 'My communication style is...', options: ['Blunt and direct', 'Gentle and careful', 'Depends on mood', 'Mostly quiet'] },
     { id: 7, text: 'In a relationship, I need...', options: ['Lots of alone time', 'Constant togetherness', 'Balanced space', 'Still figuring it out'] },
     { id: 8, text: 'My biggest relationship fear is...', options: ['Abandonment', 'Loss of freedom', 'Growing apart', 'Dishonesty'] },
     { id: 9, text: 'Conflict resolution for me looks like...', options: ['Talking immediately', 'Cooling off first', 'Avoiding it', 'Writing it out'] },
-    { id: 10, text: 'Long term I want...', options: ['Marriage', 'Companionship without labels', 'Still figuring it out', 'Kids and family'] },
+    { id: 10, text: 'Where I see us in 2 years...', options: ['Moved in together', 'Engaged or married', 'Still dating', 'Honestly not sure yet'] },
+  ],
+  married: [
+    { id: 1, text: 'After a big fight, I need to...', options: ['Space alone', 'Talk it out right away', 'Distract myself', 'It depends'] },
+    { id: 2, text: 'I show love by...', options: ['Words', 'Quality time', 'Touch', 'Acts of service'] },
+    { id: 3, text: 'My biggest fear for us right now is...', options: ['Growing apart', 'Losing ourselves in routine', 'Financial pressure', 'Honestly, we\'re fine'] },
+    { id: 4, text: 'The home workload — my honest take is...', options: ['I carry more than my share', 'They carry more', 'It feels fair', 'We\'ve never really talked about it'] },
+    { id: 5, text: 'With money, I tend to...', options: ['Save aggressively', 'Spend on what makes us happy', 'Try to balance', 'Avoid thinking about it'] },
+    { id: 6, text: 'When we disagree on something big, I...', options: ['Push to talk it through', 'Give in to keep the peace', 'Wait until we\'ve both cooled down', 'Dig in until I\'m heard'] },
+    { id: 7, text: 'Quality time — I feel like we get...', options: ['Enough, we\'re intentional about it', 'Some, but could use more', 'Not enough lately', 'It\'s become routine'] },
+    { id: 8, text: 'I feel most connected when...', options: ['We have a real conversation', 'We do things together', 'There\'s physical closeness', 'They just show up for me'] },
+    { id: 9, text: 'When it comes to our future plans, I think...', options: ['We\'re fully aligned', 'Mostly on the same page', 'There are gaps we haven\'t addressed', 'We avoid the topic'] },
+    { id: 10, text: 'In 10 years, I picture us...', options: ['Living somewhere new', 'Settled and thriving', 'Still figuring it out', 'Stronger than we are now'] },
   ],
   friends: [
     { id: 1, text: 'If you needed help at 2am, would I show up?', options: ['Yes without question', 'Probably', 'Depends what for', 'Unlikely'] },
@@ -46,13 +58,15 @@ export const questions: Record<Mode, Question[]> = {
 }
 
 export const modeLabels: Record<Mode, string> = {
-  couples: 'Couples',
+  dating: 'Dating',
+  married: 'Married / Long-term',
   friends: 'Friends',
   situationship: 'Situationship',
 }
 
 export const modeEmojis: Record<Mode, string> = {
-  couples: '\u{1F491}',
+  dating: '\u{1F48F}',
+  married: '\u{1F48D}',
   friends: '\u{1F46F}',
   situationship: '\u{1F62C}',
 }

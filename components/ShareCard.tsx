@@ -72,6 +72,10 @@ export default function ShareCard({ result, mode }: Props) {
           </p>
         </div>
 
+        <p style={{ fontSize: '12px', color: '#a1a1aa', margin: '4px 0 0', lineHeight: 1.6, maxWidth: '340px', textAlign: 'center' }}>
+          {result.report.slice(0, 200).trim()}{result.report.length > 200 ? '…' : ''}
+        </p>
+
         <p style={{ fontSize: '11px', color: '#52525b', margin: 0 }}>
           {modeEmojis[mode]} {modeLabels[mode]} &bull; We answered 10 questions separately.
         </p>
