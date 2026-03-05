@@ -33,7 +33,7 @@ export const questions: Record<Mode, Question[]> = {
   ],
   friends: [
     { id: 1, text: 'If you needed help at 2am, would I show up?', options: ['Yes without question', 'Probably', 'Depends what for', 'Unlikely'] },
-    { id: 2, text: 'I think our friendship is...', options: ['Ride or die', 'Solid but chill', 'Still growing', 'Complicated'] },
+    { id: 2, text: 'I think our friendship is...', options: ['Unbreakable', 'Solid but chill', 'Still growing', 'Complicated'] },
     { id: 3, text: "When you're upset I usually...", options: ['Check on you', 'Wait for you to come to me', 'Try to make you laugh', 'Give you space'] },
     { id: 4, text: "I'd describe my loyalty as...", options: ['Unconditional', 'Strong but has limits', 'Situational', 'Still proving it'] },
     { id: 5, text: 'Our energy together is...', options: ['Chaotic fun', 'Chill and lowkey', 'Deep and serious', 'Unpredictable'] },

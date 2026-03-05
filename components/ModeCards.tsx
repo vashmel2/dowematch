@@ -29,7 +29,7 @@ const modes = [
   {
     key: 'friends',
     label: 'Friends',
-    desc: 'Best friends, ride or dies, close circles. Ride or die — or just coexisting?',
+    desc: 'Best friends, close circles, day ones. How solid is this friendship really?',
     lottie: 'https://lottie.host/5804fc5e-8da4-49d6-9e56-4c8f7e994634/NoHAEBlTGy.lottie',
     accent: 'border-blue-500/30 hover:border-blue-500/60',
     glow: 'from-blue-500/10 to-transparent',

@@ -38,10 +38,17 @@ ${formatAnswers(person2Answers)}
 Write a compatibility report with these sections:
 
 1. SCORE: Give a compatibility percentage (0-100). Be realistic — not everyone is 85%+.
-2. LABEL: Give them a 2-4 word category name (e.g. "The Complicated Ones", "Ride or Die", "Slow Burn Warning", "Built Different", "Barely Surviving")
-3. REPORT: Write 4-6 paragraphs. Be specific, reference their actual answers, be insightful and a little edgy. Do NOT be generic. Do NOT sound like a horoscope. Sound like a brutally honest friend who sees both sides. Point out real tensions and real strengths.
+2. LABEL: Give them a 2-4 word category name (e.g. "The Complicated Ones", "Slow Burn Warning", "Built Different", "Barely Surviving", "The Real Ones")
+3. REPORT: Write 4-6 paragraphs. Be specific, reference their actual answers, be insightful and direct. Do NOT be generic. Do NOT sound like a horoscope. Sound like a candid friend who sees both sides. Point out real tensions and real strengths.
 4. STRENGTH: One sentence on their biggest strength as a pair.
-5. WATCH OUT: One sentence on their biggest friction point or red flag.
+5. WATCH OUT: One sentence on their biggest friction point or concern.
+
+IMPORTANT CONTENT RULES — follow these strictly:
+- Keep language appropriate for all ages. No profanity, explicit language, or crude humor.
+- Do not reference, imply, or joke about self-harm, suicide, or harm of any kind.
+- Do not reference substance abuse, alcohol, or drug use.
+- Do not produce sexually explicit or suggestive content.
+- Stay focused on relationship dynamics only. Do not stray into unrelated personal judgments.
 
 Format your response as JSON:
 {
