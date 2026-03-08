@@ -54,47 +54,56 @@ export default async function OGImage({ params }: { params: Promise<{ sessionId:
           flexDirection: 'column',
           alignItems: 'center',
           justifyContent: 'center',
-          fontFamily: 'Arial, Helvetica, sans-serif',
+          fontFamily: 'sans-serif',
           padding: '60px',
         }}
       >
-        <p style={{ fontSize: 14, color: '#71717a', letterSpacing: '0.15em', textTransform: 'uppercase', margin: '0 0 48px' }}>
+        {/* Brand */}
+        <div style={{ display: 'flex', fontSize: 14, color: '#71717a', letterSpacing: '0.15em', marginBottom: 48 }}>
           DoWeMatch
-        </p>
+        </div>
 
         {score !== null ? (
-          <>
-            <p style={{ fontSize: 128, fontWeight: 700, color, lineHeight: 1, margin: '0 0 8px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            {/* Score */}
+            <div style={{ display: 'flex', fontSize: 128, fontWeight: 700, color, lineHeight: 1, marginBottom: 8 }}>
               {score}%
-            </p>
-            <p style={{ fontSize: 22, color: '#a1a1aa', margin: '0 0 36px' }}>
-              compatible
-            </p>
-            <div style={{ backgroundColor: '#27272a', borderRadius: 16, padding: '14px 32px', marginBottom: names ? 24 : 48 }}>
-              <p style={{ fontSize: 30, fontWeight: 600, color: '#ffffff', margin: 0 }}>
-                "{label}"
-              </p>
             </div>
+
+            {/* Compatible label */}
+            <div style={{ display: 'flex', fontSize: 22, color: '#a1a1aa', marginBottom: 36 }}>
+              compatible
+            </div>
+
+            {/* Label badge */}
+            <div style={{ display: 'flex', backgroundColor: '#27272a', borderRadius: 16, padding: '14px 32px', marginBottom: names ? 24 : 48 }}>
+              <div style={{ display: 'flex', fontSize: 30, fontWeight: 600, color: '#ffffff' }}>
+                &quot;{label}&quot;
+              </div>
+            </div>
+
+            {/* Names */}
             {names ? (
-              <p style={{ fontSize: 20, color: '#71717a', margin: '0 0 48px' }}>
+              <div style={{ display: 'flex', fontSize: 20, color: '#71717a', marginBottom: 48 }}>
                 {names}
-              </p>
+              </div>
             ) : null}
-          </>
+          </div>
         ) : (
-          <>
-            <p style={{ fontSize: 52, fontWeight: 700, color: '#ffffff', margin: '0 0 16px' }}>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <div style={{ display: 'flex', fontSize: 52, fontWeight: 700, color: '#ffffff', marginBottom: 16 }}>
               Are you compatible?
-            </p>
-            <p style={{ fontSize: 24, color: '#a1a1aa', margin: '0 0 48px' }}>
+            </div>
+            <div style={{ display: 'flex', fontSize: 24, color: '#a1a1aa', marginBottom: 48 }}>
               Answer 10 questions. Find out in 2 minutes.
-            </p>
-          </>
+            </div>
+          </div>
         )}
 
-        <p style={{ fontSize: 16, color: '#52525b', margin: 0 }}>
+        {/* Footer */}
+        <div style={{ display: 'flex', fontSize: 16, color: '#52525b' }}>
           dowematch.com
-        </p>
+        </div>
       </div>
     ),
     { ...size }
