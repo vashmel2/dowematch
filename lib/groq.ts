@@ -4,7 +4,9 @@ import type { AIResult } from './supabase'
 export async function generateCompatibilityResult(
   mode: Mode,
   person1Answers: string[],
-  person2Answers: string[]
+  person2Answers: string[],
+  person1Name?: string | null,
+  person2Name?: string | null
 ): Promise<AIResult> {
   const qs = questions[mode]
 
@@ -24,7 +26,9 @@ export async function generateCompatibilityResult(
     friends: ['Friend A', 'Friend B'],
     situationship: ['Person A', 'Person B'],
   }
-  const [label1, label2] = pairLabels[mode]
+  const [defaultLabel1, defaultLabel2] = pairLabels[mode]
+  const label1 = person1Name?.trim() || defaultLabel1
+  const label2 = person2Name?.trim() || defaultLabel2
 
   const prompt = `You are analyzing a ${modeDescriptions[mode]} compatibility reveal.
 Two people answered the same 10 questions separately and honestly.

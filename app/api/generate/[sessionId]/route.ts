@@ -14,7 +14,7 @@ export async function POST(_request: Request, props: Props) {
     .update({ result_generated: true })
     .eq('id', sessionId)
     .eq('result_generated', false)
-    .select('id, mode, person1_answers, person2_answers, person2_done')
+    .select('id, mode, person1_answers, person2_answers, person2_done, person1_name, person2_name')
 
   if (!locked || locked.length === 0) {
     return Response.json({ message: 'already generating' })
@@ -31,7 +31,9 @@ export async function POST(_request: Request, props: Props) {
     const result = await generateCompatibilityResult(
       session.mode as Mode,
       session.person1_answers,
-      session.person2_answers
+      session.person2_answers,
+      session.person1_name,
+      session.person2_name
     )
 
     await db.from('sessions').update({ ai_result: result }).eq('id', sessionId)

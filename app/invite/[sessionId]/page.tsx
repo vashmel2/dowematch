@@ -14,6 +14,7 @@ export default function InvitePage({ params }: { params: Promise<{ sessionId: st
   const router = useRouter()
   const [session, setSession] = useState<Session | null>(null)
   const [status, setStatus] = useState<Status>('loading')
+  const [name, setName] = useState('')
   const [started, setStarted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState('')
@@ -42,7 +43,7 @@ export default function InvitePage({ params }: { params: Promise<{ sessionId: st
       const res = await fetch(`/api/session/${sessionId}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ answers }),
+        body: JSON.stringify({ answers, name: name.trim() || undefined }),
       })
       const data = await res.json()
       if (!res.ok) {
@@ -102,7 +103,11 @@ export default function InvitePage({ params }: { params: Promise<{ sessionId: st
           <div className="flex flex-col gap-8 items-center text-center py-8">
             <div className="text-5xl">{modeEmojis[mode]}</div>
             <div>
-              <h1 className="text-2xl font-bold mb-3">Someone wants to know if you match.</h1>
+              <h1 className="text-2xl font-bold mb-3">
+                {session.person1_name
+                  ? <>{session.person1_name} wants to know if you match.</>
+                  : <>Someone wants to know if you match.</>}
+              </h1>
               <p className="text-zinc-400 text-sm leading-relaxed max-w-xs mx-auto">
                 They already answered 10 questions. Now it&rsquo;s your turn.
                 Answer honestly &mdash; they won&rsquo;t see your answers until you submit.
@@ -119,11 +124,23 @@ export default function InvitePage({ params }: { params: Promise<{ sessionId: st
               </ul>
             </div>
 
+            <div className="w-full space-y-2">
+              <input
+                type="text"
+                value={name}
+                onChange={e => setName(e.target.value)}
+                placeholder="Your first name (optional)"
+                maxLength={30}
+                className="w-full bg-zinc-900 border border-zinc-700 rounded-2xl px-5 py-4 text-white placeholder-zinc-600 text-base focus:outline-none focus:border-zinc-500 transition"
+              />
+              <p className="text-xs text-zinc-600 text-center">Used in your report and share card</p>
+            </div>
+
             <button
               onClick={() => setStarted(true)}
               className="w-full max-w-xs py-4 rounded-2xl bg-linear-to-r from-rose-500 to-violet-600 text-white font-semibold hover:opacity-90 transition"
             >
-              I&rsquo;m ready. Let&rsquo;s go.
+              {name.trim() ? `I'm ready, let's go as ${name.trim()} →` : "I'm ready. Let's go."}
             </button>
           </div>
         ) : (

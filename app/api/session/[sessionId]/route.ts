@@ -21,7 +21,7 @@ export async function GET(_request: Request, props: Props) {
 
 export async function PATCH(request: Request, props: Props) {
   const { sessionId } = await props.params
-  const { answers }: { answers: string[] } = await request.json()
+  const { answers, name }: { answers: string[]; name?: string } = await request.json()
   const db = getSupabaseAdmin()
 
   if (!answers || answers.length !== 10) {
@@ -42,9 +42,11 @@ export async function PATCH(request: Request, props: Props) {
     return Response.json({ error: 'Already submitted' }, { status: 409 })
   }
 
+  const person2_name = name?.trim().slice(0, 30) || null
+
   const { error } = await db
     .from('sessions')
-    .update({ person2_answers: answers, person2_done: true })
+    .update({ person2_answers: answers, person2_done: true, person2_name })
     .eq('id', sessionId)
 
   if (error) {

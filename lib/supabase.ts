@@ -27,11 +27,13 @@ export function getSupabaseAdmin() {
 
 export interface Session {
   id: string
-  mode: 'couples' | 'friends' | 'situationship'
+  mode: 'dating' | 'married' | 'friends' | 'situationship'
   created_at: string
   expires_at: string
+  person1_name: string | null
   person1_answers: string[] | null
   person1_done: boolean
+  person2_name: string | null
   person2_answers: string[] | null
   person2_done: boolean
   ai_result: AIResult | null

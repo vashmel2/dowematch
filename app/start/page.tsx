@@ -23,7 +23,7 @@ const modeConfig: Record<Mode, { label: string; desc: string; dot: string; accen
   },
   friends: {
     label: 'Friends',
-    desc: 'Best friends, close friends, ride or dies',
+    desc: 'Best friends, close friends, day ones',
     dot: 'bg-blue-400',
     accent: 'border-blue-500/40 hover:border-blue-500/70',
     glow: 'from-blue-500/8 to-transparent',
@@ -46,6 +46,8 @@ function StartPageInner() {
   const isValidMode = paramMode && Object.keys(modeConfig).includes(paramMode)
 
   const [mode, setMode] = useState<Mode | null>(isValidMode ? paramMode : null)
+  const [name, setName] = useState('')
+  const [nameConfirmed, setNameConfirmed] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState('')
 
@@ -58,7 +60,7 @@ function StartPageInner() {
       const res = await fetch('/api/session', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ mode, answers }),
+        body: JSON.stringify({ mode, answers, name: name.trim() || undefined }),
       })
 
       const data = await res.json()
@@ -92,7 +94,7 @@ function StartPageInner() {
         {!mode ? (
           <div className="flex flex-col gap-8">
             <div>
-              <p className="text-xs text-zinc-500 uppercase tracking-widest font-medium mb-2">Step 1 of 2</p>
+              <p className="text-xs text-zinc-500 uppercase tracking-widest font-medium mb-2">Step 1 of 3</p>
               <h1 className="text-2xl font-bold mb-1">What are you two?</h1>
               <p className="text-zinc-500 text-sm">The AI adjusts tone and questions based on your situation.</p>
             </div>
@@ -120,12 +122,47 @@ function StartPageInner() {
               Your answers stay hidden until the other person submits theirs.
             </p>
           </div>
+        ) : !nameConfirmed ? (
+          <div className="flex flex-col gap-8">
+            <div className="flex items-center gap-3">
+              <button
+                onClick={() => setMode(null)}
+                className="text-zinc-500 hover:text-white transition text-sm"
+              >
+                &larr; Back
+              </button>
+            </div>
+            <div>
+              <p className="text-xs text-zinc-500 uppercase tracking-widest font-medium mb-2">Step 2 of 3</p>
+              <h1 className="text-2xl font-bold mb-1">What&rsquo;s your first name?</h1>
+              <p className="text-zinc-500 text-sm">Optional — used in your report and share card to make it personal.</p>
+            </div>
+            <div className="flex flex-col gap-3">
+              <input
+                type="text"
+                value={name}
+                onChange={e => setName(e.target.value)}
+                onKeyDown={e => e.key === 'Enter' && setNameConfirmed(true)}
+                placeholder="e.g. Jamie"
+                maxLength={30}
+                className="w-full bg-zinc-900 border border-zinc-700 rounded-2xl px-5 py-4 text-white placeholder-zinc-600 text-base focus:outline-none focus:border-zinc-500 transition"
+                autoFocus
+              />
+              <p className="text-xs text-zinc-600 text-center">Leave blank to stay anonymous</p>
+            </div>
+            <button
+              onClick={() => setNameConfirmed(true)}
+              className="w-full py-4 rounded-2xl bg-linear-to-r from-rose-500 to-violet-600 text-white font-semibold hover:opacity-90 transition"
+            >
+              {name.trim() ? `Continue as ${name.trim()} →` : 'Continue anonymously →'}
+            </button>
+          </div>
         ) : (
           <div className="flex flex-col gap-8">
             <div className="flex items-center gap-3">
               <button
-                onClick={() => { setMode(null); router.replace('/start') }}
-                className="text-zinc-600 hover:text-white transition text-sm"
+                onClick={() => setNameConfirmed(false)}
+                className="text-zinc-500 hover:text-white transition text-sm"
               >
                 &larr; Back
               </button>

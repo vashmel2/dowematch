@@ -7,6 +7,8 @@ import { modeEmojis, modeLabels, type Mode } from '@/lib/questions'
 interface Props {
   result: AIResult
   mode: Mode
+  person1Name?: string | null
+  person2Name?: string | null
 }
 
 function getScoreHex(score: number): string {
@@ -15,7 +17,7 @@ function getScoreHex(score: number): string {
   return '#fb7185'                   // rose
 }
 
-export default function ShareCard({ result, mode }: Props) {
+export default function ShareCard({ result, mode, person1Name, person2Name }: Props) {
   const cardRef = useRef<HTMLDivElement>(null)
 
   async function downloadCard() {
@@ -71,6 +73,12 @@ export default function ShareCard({ result, mode }: Props) {
             &ldquo;{result.label}&rdquo;
           </p>
         </div>
+
+        {(person1Name || person2Name) && (
+          <p style={{ fontSize: '12px', color: '#71717a', margin: '4px 0 0' }}>
+            {person1Name || 'Partner A'} &amp; {person2Name || 'Partner B'}
+          </p>
+        )}
 
         <p style={{ fontSize: '12px', color: '#a1a1aa', margin: '4px 0 0', lineHeight: 1.6, maxWidth: '340px', textAlign: 'center' }}>
           {(() => {
