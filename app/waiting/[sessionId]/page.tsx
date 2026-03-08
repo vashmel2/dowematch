@@ -38,7 +38,42 @@ export default function WaitingPage({ params }: { params: Promise<{ sessionId: s
     setTimeout(() => setCopied(false), 2000)
   }
 
-  // Supabase Realtime: redirect when person 2 is done
+  // Poll every 3s + check on tab focus — redirect when person 2 is done
+  useEffect(() => {
+    let stopped = false
+
+    async function check() {
+      try {
+        const res = await fetch(`/api/session/${sessionId}`)
+        if (!res.ok) return
+        const data = await res.json()
+        if (data.person2_done && !stopped) {
+          stopped = true
+          router.push(`/result/${sessionId}`)
+        }
+      } catch {
+        // network blip — try again next tick
+      }
+    }
+
+    check()
+    const interval = setInterval(check, 3000)
+    const timeout = setTimeout(() => { stopped = true; clearInterval(interval) }, 5 * 60 * 1000)
+
+    function onFocus() { check() }
+    window.addEventListener('focus', onFocus)
+    document.addEventListener('visibilitychange', onFocus)
+
+    return () => {
+      stopped = true
+      clearInterval(interval)
+      clearTimeout(timeout)
+      window.removeEventListener('focus', onFocus)
+      document.removeEventListener('visibilitychange', onFocus)
+    }
+  }, [sessionId, router])
+
+  // Supabase Realtime: redirect when person 2 is done (bonus — fires instantly if enabled)
   useEffect(() => {
     const client = getSupabase()
     const channel = client
