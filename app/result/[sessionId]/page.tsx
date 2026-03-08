@@ -198,15 +198,39 @@ export default function ResultPage({ params }: { params: Promise<{ sessionId: st
           <ShareCard result={result} mode={mode} person1Name={session.person1_name} person2Name={session.person2_name} />
         </div>
 
-        {/* Retake CTA */}
-        <div className="text-center py-4 border-t border-zinc-800/50">
-          <p className="text-zinc-500 text-sm mb-4">Want to try with someone else?</p>
+        {/* Viewer → player CTA */}
+        <div className="rounded-2xl border border-zinc-800 bg-zinc-900/50 p-6 text-center space-y-4">
+          <p className="text-zinc-500 text-sm">Saw this from someone else?</p>
+          <h3 className="text-xl font-bold">Find out how compatible <span className="bg-linear-to-r from-rose-400 to-violet-400 bg-clip-text text-transparent">you</span> are.</h3>
+          <p className="text-zinc-500 text-sm max-w-xs mx-auto">Pick your situation, answer 10 questions, send the link. Takes 2 minutes.</p>
           <Link
             href="/start"
-            className="inline-flex items-center gap-2 text-sm text-zinc-400 border border-zinc-700 rounded-xl px-5 py-2.5 hover:border-zinc-500 hover:text-white transition"
+            className="inline-flex items-center gap-2 bg-linear-to-r from-rose-500 to-violet-600 text-white font-semibold px-8 py-3 rounded-2xl hover:opacity-90 transition"
           >
-            Start a new reveal
+            Start your own reveal
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
           </Link>
+        </div>
+
+        {/* Try another mode */}
+        <div className="space-y-3">
+          <p className="text-xs text-zinc-500 font-medium uppercase tracking-widest">Try another mode</p>
+          <div className="grid grid-cols-3 gap-2">
+            {(Object.keys(modeEmojis) as Mode[])
+              .filter(m => m !== mode)
+              .map(m => (
+                <Link
+                  key={m}
+                  href={`/start?mode=${m}`}
+                  className="flex flex-col items-center gap-1.5 bg-zinc-900 border border-zinc-800 rounded-xl p-3 hover:border-zinc-600 hover:bg-zinc-800/50 transition text-center"
+                >
+                  <span className="text-2xl">{modeEmojis[m]}</span>
+                  <span className="text-xs text-zinc-400 font-medium leading-tight">{modeLabels[m]}</span>
+                </Link>
+              ))}
+          </div>
         </div>
 
         {/* Related articles */}
