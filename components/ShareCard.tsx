@@ -124,15 +124,19 @@ export default function ShareCard({ result, mode, person1Name, person2Name, sess
           </div>
         </div>
       ) : (
-        <Link
-          href="/start"
-          className="w-full py-3 rounded-xl bg-linear-to-r from-rose-500 to-violet-600 text-white text-sm font-semibold hover:opacity-90 transition flex items-center justify-center gap-2"
-        >
-          Find out how compatible you are
-          <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-          </svg>
-        </Link>
+        <div className="flex flex-col gap-3">
+          <p className="text-sm font-semibold text-center">Curious what you two would score?</p>
+          <p className="text-xs text-zinc-500 text-center">Two people, 10 questions each — you get a full AI report, not just a number.</p>
+          <Link
+            href="/start"
+            className="w-full py-3 rounded-xl bg-linear-to-r from-rose-500 to-violet-600 text-white text-sm font-semibold hover:opacity-90 transition flex items-center justify-center gap-2"
+          >
+            Find out your score
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </Link>
+        </div>
       )}
     </div>
   )

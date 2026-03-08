@@ -257,14 +257,13 @@ function ResultPageInner({ sessionId }: { sessionId: string }) {
         {/* Viewer → player CTA (viewers only) */}
         {!isParticipant && (
           <div className="rounded-2xl border border-zinc-800 bg-zinc-900/50 p-6 text-center space-y-4">
-            <p className="text-zinc-500 text-sm">Saw this from someone else?</p>
-            <h3 className="text-xl font-bold">Find out how compatible <span className="bg-linear-to-r from-rose-400 to-violet-400 bg-clip-text text-transparent">you</span> are.</h3>
-            <p className="text-zinc-500 text-sm max-w-xs mx-auto">Pick your situation, answer 10 questions, send the link. Takes 2 minutes.</p>
+            <h3 className="text-xl font-bold">Curious what <span className="bg-linear-to-r from-rose-400 to-violet-400 bg-clip-text text-transparent">you two</span> would score?</h3>
+            <p className="text-zinc-500 text-sm max-w-xs mx-auto">Two people, 10 questions each — you get a full AI report, not just a number.</p>
             <Link
               href="/start"
               className="inline-flex items-center gap-2 bg-linear-to-r from-rose-500 to-violet-600 text-white font-semibold px-8 py-3 rounded-2xl hover:opacity-90 transition"
             >
-              Start your own reveal
+              Find out your score
               <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
                 <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
