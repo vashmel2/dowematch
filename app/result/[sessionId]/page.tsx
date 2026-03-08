@@ -132,17 +132,6 @@ function ResultPageInner({ sessionId }: { sessionId: string }) {
         </nav>
 
         <div className="flex-1 px-6 py-10 max-w-2xl mx-auto w-full flex flex-col gap-8">
-          {/* Score hero */}
-          <div className="text-center py-8">
-            <div className={`text-7xl font-bold mb-2 ${getScoreColor(result.score)}`}>
-              {result.score}%
-            </div>
-            <div className="text-zinc-400 text-sm mb-4">compatible</div>
-            <div className={`inline-block px-5 py-2 rounded-2xl text-sm font-semibold text-white ${getScoreGradient(result.score)}`}>
-              &ldquo;{result.label}&rdquo;
-            </div>
-          </div>
-
           {/* Their result card */}
           <ShareCard
             result={result}

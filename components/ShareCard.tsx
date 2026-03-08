@@ -79,7 +79,7 @@ export default function ShareCard({ result, mode, person1Name, person2Name, sess
           compatible
         </p>
         <div style={{ backgroundColor: '#27272a', borderRadius: '12px', padding: '8px 16px' }}>
-          <p style={{ fontSize: '15px', fontWeight: 600, color: '#ffffff', margin: 0 }}>
+          <p style={{ fontSize: '15px', fontWeight: 600, color: scoreColor, margin: 0 }}>
             &ldquo;{result.label}&rdquo;
           </p>
         </div>
