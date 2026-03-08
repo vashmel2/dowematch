@@ -49,7 +49,7 @@ export default function WaitingPage({ params }: { params: Promise<{ sessionId: s
         const data = await res.json()
         if (data.person2_done && !stopped) {
           stopped = true
-          router.push(`/result/${sessionId}`)
+          router.push(`/result/${sessionId}?p=1`)
         }
       } catch {
         // network blip — try again next tick
@@ -88,7 +88,7 @@ export default function WaitingPage({ params }: { params: Promise<{ sessionId: s
         },
         (payload) => {
           if (payload.new.person2_done) {
-            router.push(`/result/${sessionId}`)
+            router.push(`/result/${sessionId}?p=1`)
           }
         }
       )

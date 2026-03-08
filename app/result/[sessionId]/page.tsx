@@ -1,25 +1,32 @@
 'use client'
 
-import { use, useEffect, useState, useCallback } from 'react'
+import { use, useEffect, useState, useCallback, Suspense } from 'react'
+import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import type { Session, AIResult } from '@/lib/supabase'
 import { modeEmojis, modeLabels, type Mode } from '@/lib/questions'
 import { getScoreColor, getScoreGradient } from '@/lib/utils'
-import ShareCard from '@/components/ShareCard'
+import ShareCard, { type ShareRole } from '@/components/ShareCard'
 
 type Status = 'loading' | 'generating' | 'ready' | 'not_ready' | 'error'
 
-export default function ResultPage({ params }: { params: Promise<{ sessionId: string }> }) {
-  const { sessionId } = use(params)
+function ResultPageInner({ sessionId }: { sessionId: string }) {
+  const searchParams = useSearchParams()
   const [session, setSession] = useState<Session | null>(null)
   const [status, setStatus] = useState<Status>('loading')
   const [copied, setCopied] = useState(false)
 
+  // Determine who is viewing
+  const p = searchParams.get('p')
+  const share = searchParams.get('share')
+  const role: ShareRole = (p === '1' || p === '2') ? 'participant' : share === 'card' ? 'card-viewer' : 'full-viewer'
+  const isParticipant = role === 'participant'
+  const isCardViewer = role === 'card-viewer'
+
   const resultUrl = typeof window !== 'undefined' ? `${window.location.origin}/result/${sessionId}` : ''
 
   async function copyResultUrl() {
-    const url = `${window.location.origin}/result/${sessionId}`
-    await navigator.clipboard.writeText(url)
+    await navigator.clipboard.writeText(`${window.location.origin}/result/${sessionId}`)
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
   }
@@ -50,7 +57,6 @@ export default function ResultPage({ params }: { params: Promise<{ sessionId: st
       setStatus('generating')
       await fetch(`/api/generate/${sessionId}`, { method: 'POST' })
 
-      // Poll until result is ready
       const poll = setInterval(async () => {
         const updated = await fetchSession()
         if (updated?.ai_result) {
@@ -60,7 +66,6 @@ export default function ResultPage({ params }: { params: Promise<{ sessionId: st
         }
       }, 2500)
 
-      // Stop polling after 60s to avoid infinite loop
       setTimeout(() => {
         clearInterval(poll)
         setStatus('error')
@@ -70,9 +75,7 @@ export default function ResultPage({ params }: { params: Promise<{ sessionId: st
     init()
   }, [sessionId, fetchSession])
 
-  if (status === 'loading') {
-    return <FullPageMessage message="Loading..." />
-  }
+  if (status === 'loading') return <FullPageMessage message="Loading..." />
 
   if (status === 'not_ready') {
     return (
@@ -104,10 +107,7 @@ export default function ResultPage({ params }: { params: Promise<{ sessionId: st
         message="Something went wrong."
         sub="Please refresh the page to try again."
         action={
-          <button
-            onClick={() => window.location.reload()}
-            className="text-sm text-violet-400 hover:text-violet-300 transition"
-          >
+          <button onClick={() => window.location.reload()} className="text-sm text-violet-400 hover:text-violet-300 transition">
             Refresh
           </button>
         }
@@ -120,6 +120,67 @@ export default function ResultPage({ params }: { params: Promise<{ sessionId: st
   const result = session.ai_result as AIResult
   const mode = session.mode as Mode
 
+  // Viewer who landed from a "card only" share — stripped-down page
+  if (isCardViewer) {
+    return (
+      <main className="min-h-screen flex flex-col">
+        <nav className="flex items-center justify-between px-6 py-5 border-b border-zinc-800/50">
+          <Link href="/" className="font-bold text-lg tracking-tight">DoWeMatch</Link>
+          <span className="text-xs border border-zinc-700 rounded-full px-3 py-1 text-zinc-400">
+            {modeEmojis[mode]} {modeLabels[mode]}
+          </span>
+        </nav>
+
+        <div className="flex-1 px-6 py-10 max-w-2xl mx-auto w-full flex flex-col gap-8">
+          {/* Score hero */}
+          <div className="text-center py-8">
+            <div className={`text-7xl font-bold mb-2 ${getScoreColor(result.score)}`}>
+              {result.score}%
+            </div>
+            <div className="text-zinc-400 text-sm mb-4">compatible</div>
+            <div className={`inline-block px-5 py-2 rounded-2xl text-sm font-semibold text-white ${getScoreGradient(result.score)}`}>
+              &ldquo;{result.label}&rdquo;
+            </div>
+          </div>
+
+          {/* Their result card */}
+          <ShareCard
+            result={result}
+            mode={mode}
+            person1Name={session.person1_name}
+            person2Name={session.person2_name}
+            sessionId={sessionId}
+            role="card-viewer"
+          />
+
+          {/* Try another mode */}
+          <div className="space-y-3">
+            <p className="text-xs text-zinc-500 font-medium uppercase tracking-widest">Try another mode</p>
+            <div className="grid grid-cols-3 gap-2">
+              {(Object.keys(modeEmojis) as Mode[]).map(m => (
+                <Link
+                  key={m}
+                  href={`/start?mode=${m}`}
+                  className="flex flex-col items-center gap-1.5 bg-zinc-900 border border-zinc-800 rounded-xl p-3 hover:border-zinc-600 hover:bg-zinc-800/50 transition text-center"
+                >
+                  <span className="text-2xl">{modeEmojis[m]}</span>
+                  <span className="text-xs text-zinc-400 font-medium leading-tight">{modeLabels[m]}</span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <footer className="border-t border-zinc-800/50 px-6 py-6 text-center text-xs text-zinc-500">
+          <Link href="/" className="hover:text-zinc-400 transition">DoWeMatch</Link> &mdash;{' '}
+          <Link href="/privacy" className="hover:text-zinc-400 transition">Privacy</Link> &bull;{' '}
+          <Link href="/terms" className="hover:text-zinc-400 transition">Terms</Link>
+        </footer>
+      </main>
+    )
+  }
+
+  // Participant or full-report viewer — full page
   return (
     <main className="min-h-screen flex flex-col">
       <nav className="flex items-center justify-between px-6 py-5 border-b border-zinc-800/50">
@@ -175,44 +236,52 @@ export default function ResultPage({ params }: { params: Promise<{ sessionId: st
           </div>
         </div>
 
-        {/* Shareable result URL */}
-        <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-5 space-y-3">
-          <h2 className="text-xs text-zinc-500 font-medium uppercase tracking-widest">Show the world</h2>
-          <p className="text-xs text-zinc-500">Post it. Send it to your group chat. Make them curious.</p>
-          <div className="flex gap-2">
-            <p className="flex-1 text-xs text-zinc-400 font-mono bg-zinc-800/50 rounded-lg px-3 py-2 truncate">
-              {resultUrl || `dowematch.com/result/${sessionId}`}
-            </p>
-            <button
-              onClick={copyResultUrl}
-              className="shrink-0 px-4 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-xs text-zinc-300 font-medium hover:border-zinc-500 hover:text-white transition"
-            >
-              {copied ? 'Copied!' : 'Copy'}
-            </button>
+        {/* Copy result URL — participants only */}
+        {isParticipant && (
+          <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-5 space-y-3">
+            <h2 className="text-xs text-zinc-500 font-medium uppercase tracking-widest">Show the world</h2>
+            <p className="text-xs text-zinc-500">Post it. Send it to your group chat. Make them curious.</p>
+            <div className="flex gap-2">
+              <p className="flex-1 text-xs text-zinc-400 font-mono bg-zinc-800/50 rounded-lg px-3 py-2 truncate">
+                {resultUrl || `dowematch.com/result/${sessionId}`}
+              </p>
+              <button
+                onClick={copyResultUrl}
+                className="shrink-0 px-4 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-xs text-zinc-300 font-medium hover:border-zinc-500 hover:text-white transition"
+              >
+                {copied ? 'Copied!' : 'Copy'}
+              </button>
+            </div>
           </div>
-        </div>
+        )}
 
-        {/* Share card + download */}
-        <div>
-          <h2 className="text-xs text-zinc-500 font-medium uppercase tracking-widest mb-4">Your shareable card</h2>
-          <ShareCard result={result} mode={mode} person1Name={session.person1_name} person2Name={session.person2_name} sessionId={sessionId} />
-        </div>
+        {/* Share card */}
+        <ShareCard
+          result={result}
+          mode={mode}
+          person1Name={session.person1_name}
+          person2Name={session.person2_name}
+          sessionId={sessionId}
+          role={role}
+        />
 
-        {/* Viewer → player CTA */}
-        <div className="rounded-2xl border border-zinc-800 bg-zinc-900/50 p-6 text-center space-y-4">
-          <p className="text-zinc-500 text-sm">Saw this from someone else?</p>
-          <h3 className="text-xl font-bold">Find out how compatible <span className="bg-linear-to-r from-rose-400 to-violet-400 bg-clip-text text-transparent">you</span> are.</h3>
-          <p className="text-zinc-500 text-sm max-w-xs mx-auto">Pick your situation, answer 10 questions, send the link. Takes 2 minutes.</p>
-          <Link
-            href="/start"
-            className="inline-flex items-center gap-2 bg-linear-to-r from-rose-500 to-violet-600 text-white font-semibold px-8 py-3 rounded-2xl hover:opacity-90 transition"
-          >
-            Start your own reveal
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-          </Link>
-        </div>
+        {/* Viewer → player CTA (viewers only) */}
+        {!isParticipant && (
+          <div className="rounded-2xl border border-zinc-800 bg-zinc-900/50 p-6 text-center space-y-4">
+            <p className="text-zinc-500 text-sm">Saw this from someone else?</p>
+            <h3 className="text-xl font-bold">Find out how compatible <span className="bg-linear-to-r from-rose-400 to-violet-400 bg-clip-text text-transparent">you</span> are.</h3>
+            <p className="text-zinc-500 text-sm max-w-xs mx-auto">Pick your situation, answer 10 questions, send the link. Takes 2 minutes.</p>
+            <Link
+              href="/start"
+              className="inline-flex items-center gap-2 bg-linear-to-r from-rose-500 to-violet-600 text-white font-semibold px-8 py-3 rounded-2xl hover:opacity-90 transition"
+            >
+              Start your own reveal
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </Link>
+          </div>
+        )}
 
         {/* Try another mode */}
         <div className="space-y-3">
@@ -261,6 +330,15 @@ export default function ResultPage({ params }: { params: Promise<{ sessionId: st
         <Link href="/terms" className="hover:text-zinc-400 transition">Terms</Link>
       </footer>
     </main>
+  )
+}
+
+export default function ResultPage({ params }: { params: Promise<{ sessionId: string }> }) {
+  const { sessionId } = use(params)
+  return (
+    <Suspense fallback={<FullPageMessage message="Loading..." />}>
+      <ResultPageInner sessionId={sessionId} />
+    </Suspense>
   )
 }
 

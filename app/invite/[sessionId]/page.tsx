@@ -51,7 +51,7 @@ export default function InvitePage({ params }: { params: Promise<{ sessionId: st
         setSubmitting(false)
         return
       }
-      router.push(`/result/${sessionId}`)
+      router.push(`/result/${sessionId}?p=2`)
     } catch {
       setError('Network error. Please try again.')
       setSubmitting(false)
