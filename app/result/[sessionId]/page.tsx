@@ -195,7 +195,7 @@ export default function ResultPage({ params }: { params: Promise<{ sessionId: st
         {/* Share card + download */}
         <div>
           <h2 className="text-xs text-zinc-500 font-medium uppercase tracking-widest mb-4">Your shareable card</h2>
-          <ShareCard result={result} mode={mode} person1Name={session.person1_name} person2Name={session.person2_name} />
+          <ShareCard result={result} mode={mode} person1Name={session.person1_name} person2Name={session.person2_name} sessionId={sessionId} />
         </div>
 
         {/* Viewer → player CTA */}

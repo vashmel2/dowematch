@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import type { AIResult } from '@/lib/supabase'
 import { modeEmojis, modeLabels, type Mode } from '@/lib/questions'
 
@@ -9,6 +9,7 @@ interface Props {
   mode: Mode
   person1Name?: string | null
   person2Name?: string | null
+  sessionId: string
 }
 
 function getScoreHex(score: number): string {
@@ -17,61 +18,43 @@ function getScoreHex(score: number): string {
   return '#fb7185'
 }
 
-export default function ShareCard({ result, mode, person1Name, person2Name }: Props) {
-  const cardRef = useRef<HTMLDivElement>(null)
-  const [loading, setLoading] = useState(false)
+export default function ShareCard({ result, mode, person1Name, person2Name, sessionId }: Props) {
+  const [copied, setCopied] = useState(false)
 
-  async function getCanvas() {
-    const html2canvas = (await import('html2canvas')).default
-    if (!cardRef.current) return null
-    return html2canvas(cardRef.current, {
-      backgroundColor: '#18181b',
-      scale: 2,
-      useCORS: true,
-    })
-  }
+  const resultUrl = typeof window !== 'undefined'
+    ? `${window.location.origin}/result/${sessionId}`
+    : `https://dowematch.com/result/${sessionId}`
 
   async function handleShare() {
-    setLoading(true)
-    try {
-      const canvas = await getCanvas()
-      if (!canvas) return
+    const shareText = `We scored ${result.score}% compatible — "${result.label}"`
 
-      const blob = await new Promise<Blob | null>(resolve => canvas.toBlob(resolve, 'image/png'))
-
-      if (blob) {
-        const file = new File([blob], `dowematch-${result.score}.png`, { type: 'image/png' })
-        if (navigator.canShare?.({ files: [file] })) {
-          try {
-            await navigator.share({
-              files: [file],
-              title: `We scored ${result.score}% compatible — "${result.label}"`,
-              text: 'Find out how compatible you are at dowematch.com',
-            })
-            return
-          } catch {
-            // user cancelled or browser blocked, fall through to download
-          }
-        }
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: 'DoWeMatch',
+          text: shareText,
+          url: resultUrl,
+        })
+        return
+      } catch {
+        // User cancelled — do nothing
+        return
       }
-
-      // Fallback: download
-      const link = document.createElement('a')
-      link.download = `dowematch-${result.score}.png`
-      link.href = canvas.toDataURL('image/png')
-      link.click()
-    } finally {
-      setLoading(false)
     }
+
+    // Desktop fallback: copy link
+    await navigator.clipboard.writeText(resultUrl)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
   }
 
   const scoreColor = getScoreHex(result.score)
+  const names = [person1Name, person2Name].filter(Boolean).join(' & ')
 
   return (
     <div className="flex flex-col gap-4">
-      {/* Card — all inline styles so html2canvas doesn't choke on oklch colors */}
+      {/* Visual preview card */}
       <div
-        ref={cardRef}
         style={{
           backgroundColor: '#18181b',
           border: '1px solid #27272a',
@@ -103,9 +86,9 @@ export default function ShareCard({ result, mode, person1Name, person2Name }: Pr
           </p>
         </div>
 
-        {(person1Name || person2Name) && (
+        {names && (
           <p style={{ fontSize: '12px', color: '#71717a', margin: '4px 0 0' }}>
-            {person1Name || 'Partner A'} &amp; {person2Name || 'Partner B'}
+            {names}
           </p>
         )}
 
@@ -126,18 +109,17 @@ export default function ShareCard({ result, mode, person1Name, person2Name }: Pr
 
       <button
         onClick={handleShare}
-        disabled={loading}
-        className="w-full py-3 rounded-xl bg-linear-to-r from-rose-500 to-violet-600 text-white text-sm font-semibold hover:opacity-90 transition disabled:opacity-50 flex items-center justify-center gap-2"
+        className="w-full py-3 rounded-xl bg-linear-to-r from-rose-500 to-violet-600 text-white text-sm font-semibold hover:opacity-90 transition flex items-center justify-center gap-2"
       >
-        {loading ? (
-          <div className="w-4 h-4 rounded-full border-2 border-white border-t-transparent animate-spin" />
-        ) : (
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13"/>
-          </svg>
-        )}
-        {loading ? 'Preparing…' : 'Share card'}
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8M16 6l-4-4-4 4M12 2v13"/>
+        </svg>
+        {copied ? 'Link copied!' : 'Share result'}
       </button>
+
+      <p className="text-xs text-zinc-600 text-center">
+        Works on WhatsApp, Facebook, Instagram, iMessage — anywhere you share links.
+      </p>
     </div>
   )
 }
